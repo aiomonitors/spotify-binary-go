@@ -8,6 +8,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"math/rand"
@@ -51,9 +52,13 @@ func main() {
 	http.HandleFunc("/callback", completeAuth)
 	http.HandleFunc("/binary", func(w http.ResponseWriter, r *http.Request) {
 		//Scans for string
-		color.Blue("Please enter a string between length 1 and 10, no spaces")
+		color.Blue("Please enter a string between length 1 and 7, no spaces")
 		var input string
 		fmt.Scanln(&input)
+
+		if len(input) > 7 {
+			panic(errors.New("Input too long"))
+		}
 
 		binaryString := binary(input)
 		screenPrint := fmt.Sprintf("Binary String:%s", binaryString)
